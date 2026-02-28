@@ -213,6 +213,23 @@ def rimuoviLettereAccentate(stringa):
         stringa_corretta += carattere_sostituito
     return stringa_corretta
 
+def chiediComune():
+    print("\nComuni disponibili:")
+    for nome_comune, codice in comuni:
+        print(f"  {nome_comune} ({codice})")
+    comune_trovato = False
+    while not comune_trovato:
+        risposta = input("\nComune di nascita: ").strip()
+        risposta_normalizzata = rimuoviLettereAccentate(risposta).upper()
+        for nome_comune, codice in comuni:
+            nome_normalizzato = rimuoviLettereAccentate(nome_comune).upper()
+            if nome_normalizzato == risposta_normalizzata:
+                comune_trovato = True
+                comune_inserito = nome_comune
+        if not comune_trovato:
+            print("Errore: comune non trovato. Riprova.")
+    return comune_inserito
+
 
 def calcolaCodiceceFiscale(cognome :str, nome :str, data :object, sesso :str, comune :str) -> str:
     codice_cognome = calcolaCodiceCognome(cognome)
