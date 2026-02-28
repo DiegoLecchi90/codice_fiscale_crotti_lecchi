@@ -188,6 +188,31 @@ def chiediNome(nome :str) -> str:
     nome = nome.lower()
     return nome
 
+def rimuoviSpazi(stringa):
+    stringa_senza_spazi = ""
+    for carattere in stringa:
+        if carattere != " ":
+            stringa_senza_spazi += carattere
+    return stringa_senza_spazi
+
+
+def rimuoviLettereAccentate(stringa):
+    lettere_accentate = [
+        ('à','A'), ('á','A'), ('è','E'), ('é','E'),
+        ('ì','I'), ('í','I'), ('ò','O'), ('ó','O'),
+        ('ù','U'), ('ú','U'), ('À','A'), ('Á','A'),
+        ('È','E'), ('É','E'), ('Ì','I'), ('Í','I'),
+        ('Ò','O'), ('Ó','O'), ('Ù','U'), ('Ú','U')
+    ]
+    stringa_corretta = ""
+    for carattere in stringa:
+        carattere_sostituito = carattere
+        for accentata, base in lettere_accentate:
+            if carattere == accentata:
+                carattere_sostituito = base
+        stringa_corretta += carattere_sostituito
+    return stringa_corretta
+
 
 def calcolaCodiceceFiscale(cognome :str, nome :str, data :object, sesso :str, comune :str) -> str:
     codice_cognome = calcolaCodiceCognome(cognome)
@@ -200,3 +225,4 @@ def calcolaCodiceceFiscale(cognome :str, nome :str, data :object, sesso :str, co
     codice_controllo = calcolaCodiceControllo(codice_fiscale_parziale)
     codice_fiscale_completo = codice_fiscale_parziale + codice_controllo
     return codice_fiscale_completo
+
