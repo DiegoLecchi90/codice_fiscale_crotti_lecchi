@@ -74,3 +74,16 @@ def chiediDataNascita():
             print("Errore: formato non valido. Usa gg/mm/aaaa.")
     return data
 
+def calcolaCodiceComune(comune):
+    codice_trovato = ""
+    for nome_comune, codice in comuni:
+        if nome_comune.upper() == comune.upper():
+            codice_trovato = codice
+    return codice_trovato
+
+
+def calcolaCodiceAnno(data):
+    anno_completo = str(data.year)
+    ultime_due_cifre = anno_completo[2] + anno_completo[3]
+    return ultime_due_cifre
+
