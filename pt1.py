@@ -106,3 +106,99 @@ def calcolaCodiceCognome(cognome):
     risultato = codice[0] + codice[1] + codice[2]
     return risultato
 
+import os
+from datetime import datetime
+
+def chiediSesso(stringa :str):
+    valoriAcc = ("m","f","M","F")
+
+    stringa = stringa.lower()
+
+    if stringa in valoriAcc:
+        return stringa
+    else:
+        print("<<!>> Errore <chiediSesso> : Syntax not accettable.")
+
+
+def calcolaCodiceControllo(cf :str):
+    lettere_controllo = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    somma = 0
+    for i in range(15):
+        carattere = cf[i]
+        if i % 2 == 0: 
+            somma += VALORI_DISPARI[carattere]
+        else: 
+            somma += VALORI_PARI[carattere]
+    resto = somma % 26
+    return lettere_controllo[resto]
+
+
+def calcolaCodiceGiorno(data: datetime, sesso :str):
+    giorno = data.day
+    if sesso.lower() == "f":
+        giorno += 40
+    giornoInStringa = str(giorno)
+    if giorno < 10:
+        giornoInStringa = "0" + giornoInStringa
+    return giornoInStringa
+
+
+def chiediNome(nome :str) -> str:
+    nome = nome.lower()
+    return nome
+
+
+def calcolaCodeiceFiscale(cognome :str, nome :str, data :object, sesso :str, comune :str) -> str:
+    import os
+from datetime import datetime
+
+def chiediSesso(stringa :str):
+    valoriAcc = ("m","f","M","F")
+
+    stringa = stringa.lower()
+
+    if stringa in valoriAcc:
+        return stringa
+    else:
+        print("<<!>> Errore <chiediSesso> : Syntax not accettable.")
+
+
+def calcolaCodiceControllo(cf :str):
+    lettere_controllo = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    somma = 0
+    for i in range(15):
+        carattere = cf[i]
+        if i % 2 == 0: 
+            somma += VALORI_DISPARI[carattere]
+        else: 
+            somma += VALORI_PARI[carattere]
+    resto = somma % 26
+    return lettere_controllo[resto]
+
+
+def calcolaCodiceGiorno(data: datetime, sesso :str):
+    giorno = data.day
+    if sesso.lower() == "f":
+        giorno += 40
+    giornoInStringa = str(giorno)
+    if giorno < 10:
+        giornoInStringa = "0" + giornoInStringa
+    return giornoInStringa
+
+
+def chiediNome(nome :str) -> str:
+    nome = nome.lower()
+    return nome
+
+
+def calcolaCodiceceFiscale(cognome :str, nome :str, data :object, sesso :str, comune :str) -> str:
+    codice_cognome = calcolaCodiceCognome(cognome)
+    codice_nome = calcolaCodiceNome(nome)
+    codice_anno = calcolaCodiceAnno(data)
+    codice_mese = CODICI_MESE[data.month]
+    codice_giorno = calcolaCodiceGiorno(data, sesso)
+    codice_comune = calcolaCodiceComune(comune)
+    codice_fiscale_parziale = codice_cognome + codice_nome + codice_anno + codice_mese + codice_giorno + codice_comune
+    codice_controllo = calcolaCodiceControllo(codice_fiscale_parziale)
+    codice_fiscale_completo = codice_fiscale_parziale + codice_controllo
+    return codice_fiscale_completo
