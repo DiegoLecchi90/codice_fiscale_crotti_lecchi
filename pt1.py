@@ -87,3 +87,22 @@ def calcolaCodiceAnno(data):
     ultime_due_cifre = anno_completo[2] + anno_completo[3]
     return ultime_due_cifre
 
+
+def calcolaCodiceCognome(cognome):
+    consonanti = []
+    vocali = []
+    for carattere in cognome:
+        if carattere in "AEIOU":
+            vocali.append(carattere)
+        else:
+            consonanti.append(carattere)
+    codice = []
+    for c in consonanti:
+        codice.append(c)
+    for v in vocali:
+        codice.append(v)
+    while len(codice) < 3:
+        codice.append('X')
+    risultato = codice[0] + codice[1] + codice[2]
+    return risultato
+
