@@ -1,4 +1,5 @@
-import datetime
+from datetime import datetime
+import os
 
 comuni = [
     ("Roma", "H501"),
@@ -62,7 +63,7 @@ def chiediDataNascita():
                     mese = int(mese_str)
                     anno = int(anno_str)
                     try:
-                        data = datetime.datetime(anno, mese, giorno)
+                        data = datetime(anno, mese, giorno)
                         data_valida = True
                     except ValueError:
                         print("Errore: data non valida. Usa gg/mm/aaaa.")
@@ -106,8 +107,6 @@ def calcolaCodiceCognome(cognome):
     risultato = codice[0] + codice[1] + codice[2]
     return risultato
 
-import os
-from datetime import datetime
 
 def chiediSesso(stringa :str):
     valoriAcc = ("m","f","M","F")
@@ -150,8 +149,7 @@ def chiediNome(nome :str) -> str:
 
 def calcolaCodeiceFiscale(cognome :str, nome :str, data :object, sesso :str, comune :str) -> str:
     import os
-from datetime import datetime
-
+    from datetime import datetime
 def chiediSesso(stringa :str):
     valoriAcc = ("m","f","M","F")
 
