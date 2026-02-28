@@ -47,3 +47,30 @@ def chiediCognome():
     cognome_maiuscolo = cognome_senza_spazi.upper()
     return cognome_maiuscolo
 
+def chiediDataNascita():
+    data_valida = False
+    while not data_valida:
+        testo_data = input("Data di nascita (gg/mm/aaaa): ").strip()
+        parti = testo_data.split("/")
+        if len(parti) == 3:
+            giorno_str = parti[0]
+            mese_str = parti[1]
+            anno_str = parti[2]
+            if len(giorno_str) == 2 and len(mese_str) == 2 and len(anno_str) == 4:
+                if giorno_str.isdigit() and mese_str.isdigit() and anno_str.isdigit():
+                    giorno = int(giorno_str)
+                    mese = int(mese_str)
+                    anno = int(anno_str)
+                    try:
+                        data = datetime.datetime(anno, mese, giorno)
+                        data_valida = True
+                    except ValueError:
+                        print("Errore: data non valida. Usa gg/mm/aaaa.")
+                else:
+                    print("Errore: formato non valido. Usa gg/mm/aaaa.")
+            else:
+                print("Errore: formato non valido. Usa gg/mm/aaaa.")
+        else:
+            print("Errore: formato non valido. Usa gg/mm/aaaa.")
+    return data
+
