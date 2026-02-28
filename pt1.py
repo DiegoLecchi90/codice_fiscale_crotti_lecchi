@@ -230,6 +230,27 @@ def chiediComune():
             print("Errore: comune non trovato. Riprova.")
     return comune_inserito
 
+def calcolaCodiceNome(nome):
+    consonanti = []
+    vocali = []
+    for carattere in nome:
+        if carattere in "AEIOU":
+            vocali.append(carattere)
+        else:
+            consonanti.append(carattere)
+    if len(consonanti) >= 4:
+        codice = [consonanti[0], consonanti[2], consonanti[3]]
+    else:
+        codice = []
+        for c in consonanti:
+            codice.append(c)
+        for v in vocali:
+            codice.append(v)
+        while len(codice) < 3:
+            codice.append('X')
+    risultato = codice[0] + codice[1] + codice[2]
+    return risultato
+
 
 def calcolaCodiceceFiscale(cognome :str, nome :str, data :object, sesso :str, comune :str) -> str:
     codice_cognome = calcolaCodiceCognome(cognome)
