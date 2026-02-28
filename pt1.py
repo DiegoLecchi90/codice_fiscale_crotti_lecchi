@@ -32,3 +32,18 @@ CODICI_MESE = {
     7:'L', 8:'M', 9:'P', 10:'R', 11:'S', 12:'T'
 }
 
+def chiediCognome():
+    cognome_valido = False
+    while not cognome_valido:
+        cognome = input("Cognome: ").strip()
+        if cognome != "":
+            cognome_valido = True
+        else:
+            print("Errore: campo obbligatorio.")
+    cognome_senza_spazi = ""
+    for carattere in cognome:
+        if carattere != " ":
+            cognome_senza_spazi += carattere
+    cognome_maiuscolo = cognome_senza_spazi.upper()
+    return cognome_maiuscolo
+
