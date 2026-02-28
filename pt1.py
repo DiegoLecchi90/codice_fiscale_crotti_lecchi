@@ -92,47 +92,39 @@ def calcolaCodiceAnno(data):
 def calcolaCodiceCognome(cognome):
     consonanti = []
     vocali = []
-    for carattere in cognome:
-        if carattere in "AEIOU":
-            vocali.append(carattere)
+    for c in cognome:
+        if c in "AEIOU":
+            vocali.append(c)
         else:
-            consonanti.append(carattere)
-    codice = []
-    for c in consonanti:
-        codice.append(c)
-    for v in vocali:
-        codice.append(v)
+            consonanti.append(c)
+    codice = consonanti + vocali
     while len(codice) < 3:
         codice.append('X')
-    risultato = codice[0] + codice[1] + codice[2]
-    return risultato
+    return codice[0] + codice[1] + codice[2]
 
 
-def chiediSesso(stringa :str):
-    valoriAcc = ("m","f","M","F")
-
-    stringa = stringa.lower()
-
-    if stringa in valoriAcc:
-        return stringa
-    else:
-        print("<<!>> Errore <chiediSesso> : Syntax not accettable.")
+def chiediSesso():
+    while True:
+        stringa = input("Sesso (M/F): ").strip().upper()
+        if stringa in ("M", "F"):
+            return stringa
+        print("Errore: inserire M o F.")
 
 
-def calcolaCodiceControllo(cf :str):
+def calcolaCodiceControllo(cf: str):
     lettere_controllo = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     somma = 0
     for i in range(15):
-        carattere = cf[i]
-        if i % 2 == 0: 
+        carattere = cf[i].upper()
+        if i % 2 == 0:
             somma += VALORI_DISPARI[carattere]
-        else: 
+        else:
             somma += VALORI_PARI[carattere]
     resto = somma % 26
     return lettere_controllo[resto]
 
 
-def calcolaCodiceGiorno(data: datetime, sesso :str):
+def calcolaCodiceGiorno(data: datetime, sesso: str):
     giorno = data.day
     if sesso.lower() == "f":
         giorno += 40
@@ -142,51 +134,14 @@ def calcolaCodiceGiorno(data: datetime, sesso :str):
     return giornoInStringa
 
 
-def chiediNome(nome :str) -> str:
-    nome = nome.lower()
-    return nome
+def chiediNome():
+    while True:
+        nome = input("Nome: ").strip()
+        if nome:
+            # rimuove spazi e converte in maiuscolo
+            return nome.replace(" ", "").upper()
+        print("Errore: campo obbligatorio.")
 
-
-def calcolaCodeiceFiscale(cognome :str, nome :str, data :object, sesso :str, comune :str) -> str:
-    import os
-    from datetime import datetime
-def chiediSesso(stringa :str):
-    valoriAcc = ("m","f","M","F")
-
-    stringa = stringa.lower()
-
-    if stringa in valoriAcc:
-        return stringa
-    else:
-        print("<<!>> Errore <chiediSesso> : Syntax not accettable.")
-
-
-def calcolaCodiceControllo(cf :str):
-    lettere_controllo = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    somma = 0
-    for i in range(15):
-        carattere = cf[i]
-        if i % 2 == 0: 
-            somma += VALORI_DISPARI[carattere]
-        else: 
-            somma += VALORI_PARI[carattere]
-    resto = somma % 26
-    return lettere_controllo[resto]
-
-
-def calcolaCodiceGiorno(data: datetime, sesso :str):
-    giorno = data.day
-    if sesso.lower() == "f":
-        giorno += 40
-    giornoInStringa = str(giorno)
-    if giorno < 10:
-        giornoInStringa = "0" + giornoInStringa
-    return giornoInStringa
-
-
-def chiediNome(nome :str) -> str:
-    nome = nome.lower()
-    return nome
 
 def rimuoviSpazi(stringa):
     stringa_senza_spazi = ""
@@ -213,22 +168,28 @@ def rimuoviLettereAccentate(stringa):
         stringa_corretta += carattere_sostituito
     return stringa_corretta
 
+
 def chiediComune():
     print("\nComuni disponibili:")
     for nome_comune, codice in comuni:
         print(f"  {nome_comune} ({codice})")
-    comune_trovato = False
-    while not comune_trovato:
+    while True:
         risposta = input("\nComune di nascita: ").strip()
+        if not risposta:
+            print("Errore: campo obbligatorio.")
+            continue
         risposta_normalizzata = rimuoviLettereAccentate(risposta).upper()
+        comune_trovato = False
         for nome_comune, codice in comuni:
             nome_normalizzato = rimuoviLettereAccentate(nome_comune).upper()
             if nome_normalizzato == risposta_normalizzata:
                 comune_trovato = True
                 comune_inserito = nome_comune
-        if not comune_trovato:
-            print("Errore: comune non trovato. Riprova.")
-    return comune_inserito
+                break
+        if comune_trovato:
+            return comune_inserito
+        print("Errore: comune non trovato. Riprova.")
+
 
 def calcolaCodiceNome(nome):
     consonanti = []
@@ -252,7 +213,7 @@ def calcolaCodiceNome(nome):
     return risultato
 
 
-def calcolaCodiceceFiscale(cognome :str, nome :str, data :object, sesso :str, comune :str) -> str:
+def calcolaCodiceFiscale(cognome: str, nome: str, data: object, sesso: str, comune: str) -> str:
     codice_cognome = calcolaCodiceCognome(cognome)
     codice_nome = calcolaCodiceNome(nome)
     codice_anno = calcolaCodiceAnno(data)
@@ -263,4 +224,21 @@ def calcolaCodiceceFiscale(cognome :str, nome :str, data :object, sesso :str, co
     codice_controllo = calcolaCodiceControllo(codice_fiscale_parziale)
     codice_fiscale_completo = codice_fiscale_parziale + codice_controllo
     return codice_fiscale_completo
+
+
+#LOOP PRINCIPALE
+
+print("  CALCOLATORE CODICE FISCALE")
+print("/n")
+
+cognome = chiediCognome()
+nome = chiediNome()
+data_nascita = chiediDataNascita()
+sesso = chiediSesso()
+comune = chiediComune()
+codice_fiscale = calcolaCodiceFiscale(cognome, nome, data_nascita, sesso, comune)
+
+print("\n")
+print(f"  CODICE FISCALE: {codice_fiscale}")
+
 
